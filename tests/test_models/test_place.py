@@ -1,99 +1,166 @@
 #!/usr/bin/python3
-
-import os
-import unittest
-from models import place
+"""Modulo de pruebas para la clase Place"""
 from models.base_model import BaseModel
 from models.place import Place
+import unittest
+import inspect
+import time
+from datetime import datetime
+from unittest import mock
+import models
 
 
-class TestAmenity(unittest.TestCase):
+class TestPlace(unittest.TestCase):
+    """Pruebas para la clase place"""
 
-    @classmethod
-    def setUpClass(cls):
-        """ Instances the Review class with attribute name """
-        cls.place_test = Place()
-        cls.place_test.city_id = "City13"
-        cls.place_test.user_id = "User26"
-        cls.place_test.name = "AirBnb Name"
-        cls.place_test.description = "Cabin by the beach"
-        cls.place_test.number_rooms = 2
-        cls.place_test.number_bathrooms = 2
-        cls.place_test.max_guest = 5
-        cls.place_test.price_by_night = 30
-        cls.place_test.latitude = 41.8240
-        cls.place_test.longitude = 71.4128
-        cls.place_test.amenity_ids = [
-            "TVs", "AC", "Cleaning service", "Heating"]
-
-    @classmethod
-    def tearDownClass(cls):
-        """ Removes the json file used as test when finished """
-        del cls.place_test
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
-
-    def test_module_documentation(self):
-        """ Test if place module is documented """
-        self.assertTrue(place.__doc__)
-
-    def test_class_documentation(self):
-        """ Test if Place class is documented """
-        self.assertTrue(Place.__doc__)
-
-    def test_if_subclass(self):
-        """ Tests if Place is a subclass of BaseModel """
-        self.assertTrue(issubclass(self.place_test.__class__, BaseModel), True)
-
-    def test_has_attributes(self):
-        """ Test if place_test has certain attributes """
-        self.assertTrue('id' in self.place_test.__dict__)
-        self.assertTrue('created_at' in self.place_test.__dict__)
-        self.assertTrue('updated_at' in self.place_test.__dict__)
-        self.assertTrue('city_id' in self.place_test.__dict__)
-        self.assertTrue('user_id' in self.place_test.__dict__)
-        self.assertTrue('name' in self.place_test.__dict__)
-        self.assertTrue('description' in self.place_test.__dict__)
-        self.assertTrue('number_rooms' in self.place_test.__dict__)
-        self.assertTrue('number_bathrooms' in self.place_test.__dict__)
-        self.assertTrue('max_guest' in self.place_test.__dict__)
-        self.assertTrue('price_by_night' in self.place_test.__dict__)
-        self.assertTrue('latitude' in self.place_test.__dict__)
-        self.assertTrue('longitude' in self.place_test.__dict__)
-        self.assertTrue('amenity_ids' in self.place_test.__dict__)
-
-    def test_attributes_are_strings(self):
+    def test_subclase(self):
         """
-        Test if the attributes place_id,
-        user_id and text are type string
+        Probando si es una subclase de basemodel
         """
-        self.assertEqual(type(self.place_test.city_id), str)
-        self.assertEqual(type(self.place_test.user_id), str)
-        self.assertEqual(type(self.place_test.name), str)
-        self.assertEqual(type(self.place_test.description), str)
-        self.assertEqual(type(self.place_test.number_rooms), int)
-        self.assertEqual(type(self.place_test.number_bathrooms), int)
-        self.assertEqual(type(self.place_test.max_guest), int)
-        self.assertEqual(type(self.place_test.price_by_night), int)
-        self.assertEqual(type(self.place_test.latitude), float)
-        self.assertEqual(type(self.place_test.longitude), float)
-        self.assertEqual(type(self.place_test.amenity_ids), list)
+        place = Place()
+        self.assertIsInstance(place, BaseModel)
+        self.assertTrue(hasattr(place, "id"))
+        self.assertTrue(hasattr(place, "created_at"))
+        self.assertFalse(hasattr(place, "update_at"))
 
-    def test_save(self):
+    def test_user_id(self):
         """
-        Test save method inherited from BaseModel by
-        comparing attributes created at and updated at
+            Atributo de clase
         """
-        self.place_test.save()
-        self.assertNotEqual(self.place_test.created_at,
-                            self.place_test.updated_at)
+        place = Place()
+        self.assertTrue(hasattr(place, "user_id"))
+        self.assertEqual(place.user_id, "")
 
-    def test_to_dict(self):
-        """ Test to_dict method inherited from BaseModel """
-        self.assertEqual('to_dict' in dir(self.place_test), True)
+    def test_name(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "name"))
+        self.assertEqual(place.name, "")
+
+    def test_city_id(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "city_id"))
+        self.assertEqual(place.city_id, "")
+
+    def test_description(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "description"))
+        self.assertEqual(place.description, "")
+
+    def test_number_bathrooms(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "number_bathrooms"))
+        self.assertEqual(type(place.number_bathrooms), int)
+        self.assertEqual(place.number_bathrooms, 0)
+
+    def test_longitude(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "longitude"))
+        self.assertEqual(type(place.longitude), float)
+        self.assertEqual(place.longitude, 0.0)
+
+    def test_amenity_ids(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "amenity_ids"))
+        self.assertEqual(type(place.amenity_ids), list)
+        self.assertEqual(len(place.amenity_ids), 0)
+
+    def test_number_rooms(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "number_rooms"))
+        self.assertEqual(type(place.number_rooms), int)
+        self.assertEqual(place.number_rooms, 0)
+
+    def test_price_by_night(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "price_by_night"))
+        self.assertEqual(type(place.price_by_night), int)
+        self.assertEqual(place.price_by_night, 0)
+
+    def test_max_guest(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "max_guest"))
+        self.assertEqual(type(place.max_guest), int)
+        self.assertEqual(place.max_guest, 0)
+
+    def test_diccionario(self):
+        """
+            Valores de diccionario devueltos
+        """
+        formato = "%Y-%m-%dT%H:%M:%S.%f"
+        place = Place()
+        diccionario = place.to_dict()
+        self.assertEqual(diccionario["__class__"], "Place")
+        self.assertEqual(type(diccionario["created_at"]), str)
+        self.assertEqual(type(diccionario["updated_at"]), str)
+        self.assertEqual(
+            diccionario["created_at"],
+            place.created_at.strftime(formato)
+        )
+        self.assertEqual(
+            diccionario["updated_at"],
+            place.updated_at.strftime(formato))
+
+    def test_latitude(self):
+        """
+            Atributo de clase
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "latitude"))
+        self.assertEqual(type(place.latitude), float)
+        self.assertEqual(place.latitude, 0.0)
+
+    def test_to_dict_Place(self):
+        """
+            to_dict con Place y el tipo y contenido
+        """
+        place = Place()
+        diccionario = place.to_dict()
+        self.assertEqual(type(diccionario), dict)
+        for Atributo in place.__dict__:
+            self.assertTrue(Atributo in diccionario)
+            self.assertTrue("__class__" in diccionario)
+
+    def test_instancia(self):
+        """Prueba la instanciación de la clase Place"""
+
+        place = Place()
+        self.assertEqual(str(type(place)), "<class 'models.place.Place'>")
+        self.assertIsInstance(place, Place)
+        self.assertTrue(issubclass(type(place), BaseModel))
+
+    def test_str(self):
+        """prueba que el método str tiene la salida correcta"""
+        place = Place()
+        string = "[Place] ({}) {}".format(place.id, place.__dict__)
+        self.assertEqual(string, str(place))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

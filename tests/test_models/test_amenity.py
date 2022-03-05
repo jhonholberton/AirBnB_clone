@@ -1,66 +1,61 @@
 #!/usr/bin/python3
+"""Unit test for the module Amenity"""
 
-import os
 import unittest
-from models import amenity
 from models.amenity import Amenity
-from models.base_model import BaseModel
+from models import storage
 
 
-class TestAmenity(unittest.TestCase):
+class Test_Amenity(unittest.TestCase):
+    """Test for the class Amenity"""
+    instancia = Amenity()
+    instancia.name = 'pepe2'
 
-    @classmethod
-    def setUpClass(cls):
-        """ Instances the amenity class with attribute name """
-        cls.amenity_test = Amenity()
-        cls.amenity_test.name = "WiFi HotSpot"
+    data_base = storage.all()
+    instancia_nombre = 'Amenity.' + instancia.id
 
-    @classmethod
-    def tearDownClass(cls):
-        """ Removes the json file used as test when finished """
-        del cls.amenity_test
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
+    def test_amenityinit(self):
+        """Test for the method __init__"""
+        features = self.data_base.get(self.instancia_nombre).to_dict()
+        clase_a = "<class 'models.amenity.Amenity'>"
+        tiempo = "<class 'datetime.datetime'>"
 
-    def test_module_documentation(self):
-        """ Test if amenity module is documented """
-        self.assertTrue(amenity.__doc__)
+        # Data types
+        self.assertEqual(str(type(self.instancia)), clase_a)
+        self.assertEqual(str(type(self.instancia.id)), "<class 'str'>")
+        self.assertEqual(str(type(self.instancia.created_at)), tiempo)
+        self.assertEqual(str(type(self.instancia.updated_at)), tiempo)
 
-    def test_class_documentation(self):
-        """ Test if Amenity class is documented """
-        self.assertTrue(Amenity.__doc__)
+        # Basic features storage
+        self.assertIn(self.instancia_nombre, self.data_base.keys())
+        self.assertIn('created_at', features.keys())
+        self.assertIn('updated_at', features.keys())
+        self.assertIn('id', features.keys())
+        self.assertIn('name', features.keys())
 
-    def test_if_subclass(self):
-        """ Tests if Amenity is a subclass of BaseModel """
-        self.assertTrue(issubclass(
-            self.amenity_test.__class__, BaseModel), True)
+        test_dict = {"id": "a693d0ab-14d0-496b-b5db-02e4a7516d4e",
+                     "created_at": "2022-03-04T15:08:52.299424",
+                     "updated_at": "2022-03-04T15:08:52.300076",
+                     "__class__": "Amenity",
+                     "name": "pepe"}
+        instance2 = Amenity(**test_dict)
+        self.assertIsInstance(instance2, Amenity)
+        self.assertEqual(instance2.id, "a693d0ab-14d0-496b-b5db-02e4a7516d4e")
+        self.assertEqual(instance2.name, "pepe")
 
-    def test_has_attributes(self):
-        """ Test if amenity_test has certain attributes """
-        self.assertTrue('id' in self.amenity_test.__dict__)
-        self.assertTrue('created_at' in self.amenity_test.__dict__)
-        self.assertTrue('updated_at' in self.amenity_test.__dict__)
-        self.assertTrue('name' in self.amenity_test.__dict__)
+    def test_amenitysave(self):
+        """Test for the method save"""
+        dato_update = self.instancia.updated_at
+        self.instancia.save()
+        new_date = self.instancia.updated_at
+        self.assertNotEqual(dato_update, new_date)
 
-    def test_attributes_are_strings(self):
-        """ Test if the attribute name is type string """
-        self.assertEqual(type(self.amenity_test.name), str)
-
-    def test_save(self):
-        """
-        Test save method inherited from BaseModel by
-        comparing attributes created at and updated at
-        """
-        self.amenity_test.save()
-        self.assertNotEqual(self.amenity_test.created_at,
-                            self.amenity_test.updated_at)
-
-    def test_to_dict(self):
-        """ Test to_dict method inherited from BaseModel """
-        self.assertEqual('to_dict' in dir(self.amenity_test), True)
+    def test_amenitytodict(self):
+        """Test for the method to_dict"""
+        type_of_dict = str(type(self.instancia.to_dict()))
+        self.assertEqual(type_of_dict, "<class 'dict'>")
+        self.assertIn(self.instancia_nombre, self.data_base.keys())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
