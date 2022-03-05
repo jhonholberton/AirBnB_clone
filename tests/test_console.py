@@ -65,8 +65,3 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(issubclass(rev1.__class__, BaseModel))
         self.assertTrue(issubclass(place1.__class__, BaseModel))
         self.assertTrue(issubclass(user1.__class__, BaseModel))
-
-
-if __name__ == '__main__':
-    """name -- main"""
-    unittest.main()

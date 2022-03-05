@@ -56,7 +56,3 @@ class TestState(unittest.TestCase):
         self.assertIsInstance(state, State)
         self.assertTrue(issubclass(type(state), BaseModel))
 
-
-if __name__ == '__main__':
-    """name -- main"""
-    unittest.main()

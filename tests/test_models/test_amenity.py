@@ -43,9 +43,3 @@ class Test_Amenity(unittest.TestCase):
         self.instancia.save()
         new_date = self.instancia.updated_at
         self.assertNotEqual(dato_update, new_date)
-
-
-
-if __name__ == '__main__':
-    """name -- main"""
-    unittest.main()
