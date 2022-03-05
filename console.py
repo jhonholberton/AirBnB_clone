@@ -14,7 +14,8 @@ from models.place import Place
 class HBNBCommand(cmd.Cmd):
     """class that inherits from cmd module"""
     prompt = "(hbnb) "
-    list_class = ["BaseModel", "User", "State", "City", "Place", "Amenity", "Review"]
+    list_class = ["BaseModel", "User", "State",
+                  "City", "Place", "Amenity", "Review"]
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -114,8 +115,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
             else:
                 print("** no instance found **")
-        
-        
-        
+
 if __name__ == '__main__':
+    """main name principal"""
     HBNBCommand().cmdloop()
