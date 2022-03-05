@@ -144,19 +144,6 @@ class TestBaseModel(unittest.TestCase):
         obj = BaseModel(**diccionario)
         self.assertEqual(obj.to_dict(), diccionario)
 
-    def test_save_desde_save(self):
-        """Prueba que llama a storage.save() desde save()."""
-        self.test_restablece()
-        base = BaseModel()
-        base.save()
-        key = "{}.{}".format(type(base).__name__, base.id)
-        llave = {key: base.to_dict()}
-        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
-        with open(FileStorage._FileStorage__file_path,
-                  "r", encoding="utf-8") as f:
-            self.assertEqual(len(f.read()), len(json.dumps(llave)))
-            f.seek(0)
-            self.assertEqual(json.load(f), llave)
 
     def test_save_sin_argumentos(self):
         """Prueba save() sin argumentos"""
