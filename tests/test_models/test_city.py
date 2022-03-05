@@ -15,7 +15,6 @@ class Test_City(unittest.TestCase):
     data_base = storage.all()
     instancia_nombre = 'City.' + instancia.id
 
-    
     def test_citysave(self):
         """Test for the method save"""
         dato_update = self.instancia.updated_at
