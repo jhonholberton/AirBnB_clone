@@ -1,80 +1,84 @@
 #!/usr/bin/python3
-"""Unit test for the module User"""
+"""
+Test cases for the User class
+"""
 
-import unittest
+from models.base_model import BaseModel
 from models.user import User
-from models import storage
+import unittest
 
 
 class TestUser(unittest.TestCase):
-    """Test for the class User"""
-    instance = User()
-    data_base = storage.all()
-    instancia_nombre = 'User.' + instance.id
-    instance.first_name = 'Pepe'
-    instance.email = "pepeprogramador@holberton.com"
-    instance.password = "pepeproblemas21"
-    instance.first_name = "Andres"
-    instance.last_name = "Pardo"
+    """
+        unitesst for user class
+    """
 
-    def test_userinit(self):
-        """Test for the method __init__"""
-        features = self.data_base.get(self.instancia_nombre).to_dict()
-        clase_u = "<class 'models.user.User'>"
-        tiempo = "<class 'datetime.datetime'>"
+    def issub_class(self):
+        """
+            test if User class is sub class of base model
+        """
+        user = User()
+        self.assertIsInstance(user, BaseModel)
+        self.assertTrue(hasattr(user, "id"))
+        self.assertTrue(hasattr(user, "created_at"))
+        self.assertTrue(hasattr(user, "update_at"))
 
-        # Data types
-        self.assertEqual(str(type(self.instance)), clase_u)
-        self.assertEqual(str(type(self.instance.id)), "<class 'str'>")
-        self.assertEqual(str(type(self.instance.created_at)), tiempo)
-        self.assertEqual(str(type(self.instance.updated_at)), tiempo)
+    def test_email(self):
+        """
+            test class attribute email
+        """
+        user = User()
+        self.assertTrue(hasattr(user, "email"))
+        self.assertEqual(user.email, "")
 
-        # Basic features storage
-        self.assertIn(self.instancia_nombre, self.data_base.keys())
-        self.assertIn('created_at', features.keys())
-        self.assertIn('updated_at', features.keys())
-        self.assertIn('id', features.keys())
-        self.assertIn('first_name', features.keys())
-        self.assertIn('email', features.keys())
-        self.assertIn('password', features.keys())
-        self.assertIn('first_name', features.keys())
-        self.assertIn('last_name', features.keys())
+    def test_password(self):
+        """
+            test class attribute password
+        """
+        user = User()
+        self.assertTrue(hasattr(user, "password"))
+        self.assertEqual(user.password, "")
 
-        test_dict = {"id": "cccef82a-6597-4249-9a09-bf8d5a8491c0",
-                     "created_at": "2022-03-04T19:29:11.035622",
-                     "updated_at": "2022-03-04T19:29:11.035663",
-                     "__class__": "User",
-                     "first_name": "Andres",
-                     "last_name": "Pardo",
-                     "password": "6543210",
-                     "email": "Andresprogramador@holberton.com"}
-        instance2 = User(**test_dict)
-        self.assertTrue(isinstance(instance2, User))
-        self.assertEqual(instance2.id, "cccef82a-6597-4249-9a09-bf8d5a8491c0")
-        self.assertEqual(instance2.first_name, "Andres")
-        self.assertEqual(instance2.last_name, "Pardo")
-        self.assertEqual(instance2.email, "Andresprogramador@holberton.com")
-        self.assertEqual(instance2.password, "6543210")
+    def test_name(self):
+        """
+            test class atribute first_name and last_name
+        """
+        user = User()
+        self.assertTrue(hasattr(user, "first_name"))
+        self.assertEqual(user.first_name, "")
+        self.assertTrue(hasattr(user, "last_name"))
+        self.assertEqual(user.last_name, "")
 
-    def test_userstr(self):
-        """Test for the method __str__"""
-        p = '[User] ({}) {}'.format(self.instance.id, self.instance.__dict__)
-        my_string = self.instance.__str__()
-        self.assertEqual(p, my_string)
+    def test_to_dictUser(self):
+        """
+            test to dict method with user and the type
+            and content
+        """
+        user = User()
+        dict_cont = user.to_dict()
+        self.assertEqual(type(dict_cont), dict)
+        for attr in user.__dict__:
+            self.assertTrue(attr in dict_cont)
+            self.assertTrue("__class__" in dict_cont)
 
-    def test_usersave(self):
-        """Test for the method save"""
-        dateofupdate = self.instance.updated_at
-        self.instance.save()
-        new_date = self.instance.updated_at
-        self.assertNotEqual(dateofupdate, new_date)
+    def test_dict_value(self):
+        """
+            test the returned dictionar values
+        """
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
+        user = User()
+        dict_con = user.to_dict()
+        self.assertEqual(dict_con["__class__"], "User")
+        self.assertEqual(type(dict_con["created_at"]), str)
+        self.assertEqual(type(dict_con["updated_at"]), str)
+        self.assertEqual(
+            dict_con["created_at"],
+            user.created_at.strftime(time_format)
+        )
+        self.assertEqual(
+            dict_con["updated_at"],
+            user.updated_at.strftime(time_format))
 
-    def test_usertodict(self):
-        """Test for the method to_dict"""
-        type_of_dict = str(type(self.instance.to_dict()))
-        self.assertEqual(type_of_dict, "<class 'dict'>")
-        self.assertIn(self.instancia_nombre, self.data_base.keys())
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
