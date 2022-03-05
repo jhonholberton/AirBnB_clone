@@ -50,12 +50,6 @@ class Test_Amenity(unittest.TestCase):
         new_date = self.instancia.updated_at
         self.assertNotEqual(dato_update, new_date)
 
-    def test_amenitytodict(self):
-        """Test for the method to_dict"""
-        type_of_dict = str(type(self.instancia.to_dict()))
-        self.assertEqual(type_of_dict, "<class 'dict'>")
-        self.assertIn(self.instancia_nombre, self.data_base.keys())
-
 
 if __name__ == '__main__':
     unittest.main()

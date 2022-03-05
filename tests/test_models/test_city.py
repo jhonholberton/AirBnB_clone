@@ -62,12 +62,6 @@ class Test_City(unittest.TestCase):
         my_string = self.instancia.__str__()
         self.assertEqual(p, my_string)
 
-    def test_citytodict(self):
-        """Test for the method to_dict"""
-        type_of_dict = str(type(self.instancia.to_dict()))
-        self.assertEqual(type_of_dict, "<class 'dict'>")
-        self.assertIn(self.instancia_nombre, self.data_base.keys())
-
 
 if __name__ == '__main__':
     unittest.main()
