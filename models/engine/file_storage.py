@@ -35,10 +35,17 @@ class FileStorage():
     def reload(self):
         """method to update variable __objec"""
         from models.base_model import BaseModel
+        from models.amenity import Amenity
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+        from models.user import User
         try:
             with open(self.__file_path, "r") as my_file:
-                self.my_dic_json = json.load(my_file)
-                for k in self.my_dic_json.keys():
-                    self.__objects[k] = BaseModel(**self.my_dic_json[k])
+                my_dic_json = json.load(my_file)
+                for k in my_dic_json.keys():
+                    my_class = my_dic_json[k]['__class__']
+                    self.__objects[k] = eval(my_class)(**my_dic_json[k])
         except Exception:
             self.__objects = {}

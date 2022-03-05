@@ -7,3 +7,7 @@ class City(BaseModel):
     """class that inherits from BaseModel"""
     state_id = str()
     name = str()
+
+    def __init__(self, *args, **kwargs):
+        """Method Init"""
+        super().__init__(*args, **kwargs)
