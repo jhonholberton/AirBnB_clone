@@ -1,103 +1,122 @@
 #!/usr/bin/python3
-"""Unit test for the module User"""
+"""Testing FileStorage class """
+
+import json
 import unittest
 import os
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
-from models import storage
 
 
-class Test_FileStorage(unittest.TestCase):
-    """Test for the class FileStorage"""
+class TestFileStorage(unittest.TestCase):
+    """
+        Testing FileStorage class
+    """
 
-    instance1 = FileStorage()
-    file = storage._FileStorage__file_path
-    storage = FileStorage()
+    def setUp(self):
+        """Testing FileStorage class """
+        self.file_path = getattr(FileStorage, "_FileStorage__file_path")
 
-    def test_all(self):
-        """Test for the method all()"""
-        self.assertIn('all', dir(self.instance1))
-        self.assertIsInstance(self.instance1, FileStorage)
-        dictt = storage.all()
-        self.assertEqual(type(dictt), dict)
+    def tearDown(self):
+        """Testing FileStorage class """
+        setattr(FileStorage, "_FileStorage__objects", {})
 
-    def test_new(self):
-        """Test for the method new()"""
-        self.assertIn('new', dir(self.instance1))
+    def test_function_all(self):
+        """Testing FileStorage class """
+        setattr(FileStorage, "_FileStorage__objects", {})
 
-    def test_save(self):
-        """Test for the method save()"""
-        self.assertIn('save', dir(self.instance1))
-        self.storage.save()
-        self.assertTrue(os.path.isfile(self.file))
+        instance = FileStorage()
+        self.assertEqual(instance.all(), {})
 
-    def test_save2(self):
-        '''Test saving a instances of each type'''
-        base = BaseModel()
-        storage.new(base)
+        setattr(FileStorage, "_FileStorage__objects", {"Hola", "Mundo"})
+        self.assertEqual(instance.all(), {"Hola", "Mundo"})
+        setattr(FileStorage, "_FileStorage__objects", {})
 
-        user = User()
-        storage.new(user)
+        base_model_instance1 = BaseModel()
+        base_model_instance2 = BaseModel()
+        base_model_instance3 = BaseModel()
+        self.assertEqual(len(instance.all()), 3)
 
-        state = State()
-        storage.new(state)
+    def test_function_new(self):
+        """Testing FileStorage class """
 
-        place = Place()
-        storage.new(place)
+        setattr(FileStorage, "_FileStorage__objects", {})
 
-        city = City()
-        storage.new(city)
+        """Testing FileStorage class """
+        instance = FileStorage()
+        self.assertEqual(instance.all(), {})
 
-        amenity = Amenity()
-        storage.new(amenity)
+        """Testing FileStorage class """
+        base_model_instance = BaseModel()
+        self.assertEqual(len(instance.all()), 1)
 
-        review = Review()
-        storage.new(review)
+        """Testing FileStorage class """
+        list_objects = instance.all()
+        key = "BaseModel." + str(base_model_instance.id)
+        self.assertEqual(base_model_instance, list_objects[key])
 
-        storage.save()
+    def test_function_save(self):
+        """Testing FileStorage class """
 
-        with open(self.file) as f:
-            string = f.read()
-            self.assertIn("BaseModel." + base.id, string)
-            self.assertIn("User." + user.id, string)
-            self.assertIn("State." + state.id, string)
-            self.assertIn("Place." + place.id, string)
-            self.assertIn("City." + city.id, string)
-            self.assertIn("Amenity." + amenity.id, string)
-            self.assertIn("Review." + review.id, string)
+        """Testing FileStorage class """
+        instance = FileStorage()
+        instance.save()
 
-    def test_reload(self):
-        """Test for the method reload()"""
-        self.assertIn('reload', dir(self.instance1))
+        """Testing FileStorage class """
+        self.assertTrue(os.path.exists(self.file_path))
 
-        objects = storage.all()
+        """Testing FileStorage class """
+        with open(self.file_path, 'r') as file:
+            json_string = json.load(file)
+        self.assertEqual(json_string, {})
 
-        base = BaseModel()
-        user = User()
-        state = State()
-        place = Place()
-        city = City()
-        amenity = Amenity()
-        review = Review()
+        base_model_instance1 = BaseModel()
+        base_model_instance2 = BaseModel()
+        instance.save()
+        base_model_instance3 = BaseModel()
+        instance.save()
 
-        storage.save()
-        storage.reload()
+        key = "BaseModel." + str(base_model_instance2.id)
+        with open(self.file_path, 'r') as file:
+            json_string = json.load(file)
 
-        self.assertIn("BaseModel." + base.id, objects.keys())
-        self.assertIn("User." + user.id, objects.keys())
-        self.assertIn("State." + state.id, objects.keys())
-        self.assertIn("Place." + place.id, objects.keys())
-        self.assertIn("City." + city.id, objects.keys())
-        self.assertIn("Amenity." + amenity.id, objects.keys())
-        self.assertIn("Review." + review.id, objects.keys())
+        self.assertEqual(json_string[key], base_model_instance2.to_dict())
 
+    def test_function_reload(self):
+        """Testing FileStorage class """
 
-if __name__ == '__main__':
-    """name -- main"""
-    unittest.main()
+        instance = FileStorage()
+
+        """Testing FileStorage class """
+        with open(self.file_path, 'w', encoding='utf8') as file:
+            json.dump("{}", file)
+
+        self.assertEqual(len(instance.all()), 0)
+
+        """Testing FileStorage class """
+
+        string = '{"BaseModel.055de01b": {"id": "055de01b", "created_at":'\
+            + '"2021-06-26T21:43:11.896838", "updated_at":'\
+            + '"2021-06-26T21:43:11.896885", "name": "Holberton",'\
+            + '"my_number": 89, "__class__": "BaseModel"},'\
+            + '"BaseModel.4749f227": {"id": "4749f227", "created_at":'\
+            + '"2021-06-26T21:43:29.787034", "updated_at":'\
+            + '"2021-06-26T21:43:29.787079", "name": "Holberton",'\
+            + '"my_number": 89, "__class__": "BaseModel"}}'
+        key = 'BaseModel.055de01b'
+
+        with open(self.file_path, 'w', encoding='utf8') as file:
+            file.write(string)
+
+        instance.reload()
+        self.assertEqual(len(instance.all()), 2)
+        obj = instance.all()[key]
+        self.assertEqual(obj.id, "055de01b")
+
+        """Testing FileStorage class """
+        if (os.path.exists(self.file_path)):
+            os.remove(self.file_path)
+        setattr(FileStorage, "_FileStorage__objects", {})
+
+        instance.reload()
+        self.assertEqual(instance.all(), {})

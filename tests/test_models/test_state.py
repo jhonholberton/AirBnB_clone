@@ -1,58 +1,65 @@
 #!/usr/bin/python3
-"""Modulo de pruebas para la clase State"""
+
+import os
+import unittest
+from models import state
 from models.base_model import BaseModel
 from models.state import State
-import unittest
 
 
-class TestState(unittest.TestCase):
-    """Probar la clase State"""
+class TestAmenity(unittest.TestCase):
 
-    def test_sub_class(self):
-        """probar si la clase de state es una subclase del BaseModel"""
-        state = State()
-        self.assertIsInstance(state, BaseModel)
-        self.assertTrue(hasattr(state, "id"))
-        self.assertTrue(hasattr(state, "created_at"))
-        self.assertFalse(hasattr(state, "update_at"))
+    @classmethod
+    def setUpClass(cls):
+        """ Instances the State class with attribute name """
+        cls.state_test = State()
+        cls.state_test.name = "Rhode Island"
 
-    def test_name(self):
-        """Atributo de clase y si esta vacia la cadena"""
-        state = State()
-        self.assertTrue(hasattr(state, "name"))
-        self.assertEqual(state.name, "")
+    @classmethod
+    def tearDownClass(cls):
+        """ Removes the json file used as test when finished """
+        del cls.state_test
+        try:
+            os.remove("file.json")
+        except FileNotFoundError:
+            pass
 
-    def test_to_dictstate_create(self):
-        """El método test to_dict crea un
-        diccionario con los atributos adecuados"""
-        state = State()
-        diccionario = state.to_dict()
-        self.assertEqual(type(diccionario), dict)
-        for atributo in state.__dict__:
-            self.assertTrue(atributo in diccionario)
-            self.assertTrue("__class__" in diccionario)
+    def test_module_documentation(self):
+        """ Test if state module is documented """
+        self.assertTrue(state.__doc__)
 
-    def test_str(self):
-        """prueba que el método str tiene la salida correcta"""
-        state = State()
-        string = "[State] ({}) {}".format(state.id, state.__dict__)
-        self.assertEqual(string, str(state))
+    def test_class_documentation(self):
+        """ Test if State class is documented """
+        self.assertTrue(State.__doc__)
 
-    def test_to_valores_dicci(self):
-        """los valores en dict devueltos desde to_dict sean correctos"""
-        formato = "%Y-%m-%dT%H:%M:%S.%f"
-        state = State()
-        di = state.to_dict()
-        self.assertEqual(di["__class__"], "State")
-        self.assertEqual(type(di["created_at"]), str)
-        self.assertEqual(type(di["updated_at"]), str)
-        self.assertEqual(di["created_at"], state.created_at.strftime(formato))
-        self.assertEqual(di["updated_at"], state.updated_at.strftime(formato))
+    def test_if_subclass(self):
+        """ Tests if State is a subclass of BaseModel """
+        self.assertTrue(issubclass(self.state_test.__class__, BaseModel), True)
 
-    def test_instancia(self):
-        """Prueba la instanciación de la clase State"""
-        state = State()
-        self.assertEqual(str(type(state)), "<class 'models.state.State'>")
-        self.assertIsInstance(state, State)
-        self.assertTrue(issubclass(type(state), BaseModel))
+    def test_has_attributes(self):
+        """ Test if state_test has certain attributes """
+        self.assertTrue('id' in self.state_test.__dict__)
+        self.assertTrue('created_at' in self.state_test.__dict__)
+        self.assertTrue('updated_at' in self.state_test.__dict__)
+        self.assertTrue('name' in self.state_test.__dict__)
 
+    def test_attributes_are_strings(self):
+        """ Test if the attribute name is type string """
+        self.assertEqual(type(self.state_test.name), str)
+
+    def test_save(self):
+        """
+        Test save method inherited from BaseModel by
+        comparing attributes created at and updated at
+        """
+        self.state_test.save()
+        self.assertNotEqual(self.state_test.created_at,
+                            self.state_test.updated_at)
+
+    def test_to_dict(self):
+        """ Test to_dict method inherited from BaseModel """
+        self.assertEqual('to_dict' in dir(self.state_test), True)
+
+
+if __name__ == "__main__":
+    unittest.main()

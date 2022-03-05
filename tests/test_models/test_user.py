@@ -6,11 +6,6 @@ Test cases for the User class
 from models.base_model import BaseModel
 from models.user import User
 import unittest
-import inspect
-import time
-from datetime import datetime
-from unittest import mock
-import models
 
 
 class TestUser(unittest.TestCase):
