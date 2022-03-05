@@ -78,3 +78,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(
             dict_con["updated_at"],
             user.updated_at.strftime(time_format))
+
+
+if __name__ == "__main__":
+    unittest.main()
