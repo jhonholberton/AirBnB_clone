@@ -1,166 +1,147 @@
 #!/usr/bin/python3
-"""Modulo de pruebas para la clase Place"""
+"""
+Test cases for the place class
+"""
+
 from models.base_model import BaseModel
 from models.place import Place
 import unittest
-import inspect
-import time
-from datetime import datetime
-from unittest import mock
-import models
 
 
-class TestPlace(unittest.TestCase):
-    """Pruebas para la clase place"""
+class Testplace(unittest.TestCase):
+    """
+        unitesst for place class
+    """
 
-    def test_subclase(self):
+    def issub_class(self):
         """
-        Probando si es una subclase de basemodel
+            test if place class is sub class of base model
         """
         place = Place()
         self.assertIsInstance(place, BaseModel)
         self.assertTrue(hasattr(place, "id"))
         self.assertTrue(hasattr(place, "created_at"))
-        self.assertFalse(hasattr(place, "update_at"))
-
-    def test_user_id(self):
-        """
-            Atributo de clase
-        """
-        place = Place()
-        self.assertTrue(hasattr(place, "user_id"))
-        self.assertEqual(place.user_id, "")
+        self.assertTrue(hasattr(place, "update_at"))
 
     def test_name(self):
         """
-            Atributo de clase
+            test class attribute name
         """
         place = Place()
         self.assertTrue(hasattr(place, "name"))
         self.assertEqual(place.name, "")
-
+    
     def test_city_id(self):
         """
-            Atributo de clase
+            test class attribute city_id
         """
         place = Place()
         self.assertTrue(hasattr(place, "city_id"))
         self.assertEqual(place.city_id, "")
-
+    
+    def test_user_id(self):
+        """
+            test class attribute user_id
+        """
+        place = Place()
+        self.assertTrue(hasattr(place, "user_id"))
+        self.assertEqual(place.user_id, "")
+        
     def test_description(self):
         """
-            Atributo de clase
+            test class attribute description
         """
         place = Place()
         self.assertTrue(hasattr(place, "description"))
         self.assertEqual(place.description, "")
-
-    def test_number_bathrooms(self):
-        """
-            Atributo de clase
-        """
-        place = Place()
-        self.assertTrue(hasattr(place, "number_bathrooms"))
-        self.assertEqual(type(place.number_bathrooms), int)
-        self.assertEqual(place.number_bathrooms, 0)
-
-    def test_longitude(self):
-        """
-            Atributo de clase
-        """
-        place = Place()
-        self.assertTrue(hasattr(place, "longitude"))
-        self.assertEqual(type(place.longitude), float)
-        self.assertEqual(place.longitude, 0.0)
-
-    def test_amenity_ids(self):
-        """
-            Atributo de clase
-        """
-        place = Place()
-        self.assertTrue(hasattr(place, "amenity_ids"))
-        self.assertEqual(type(place.amenity_ids), list)
-        self.assertEqual(len(place.amenity_ids), 0)
-
+        
     def test_number_rooms(self):
         """
-            Atributo de clase
+            test class attribute number_rooms
         """
         place = Place()
         self.assertTrue(hasattr(place, "number_rooms"))
-        self.assertEqual(type(place.number_rooms), int)
         self.assertEqual(place.number_rooms, 0)
-
-    def test_price_by_night(self):
+        
+    def test_number_bathrooms(self):
         """
-            Atributo de clase
+            test class attribute number_bathrooms
         """
         place = Place()
-        self.assertTrue(hasattr(place, "price_by_night"))
-        self.assertEqual(type(place.price_by_night), int)
-        self.assertEqual(place.price_by_night, 0)
-
+        self.assertTrue(hasattr(place, "number_bathrooms"))
+        self.assertEqual(place.number_bathrooms, 0)
+        
     def test_max_guest(self):
         """
-            Atributo de clase
+            test class attribute max_guest
         """
         place = Place()
         self.assertTrue(hasattr(place, "max_guest"))
-        self.assertEqual(type(place.max_guest), int)
         self.assertEqual(place.max_guest, 0)
-
-    def test_diccionario(self):
+        
+    def test_price_by_night(self):
         """
-            Valores de diccionario devueltos
+            test class attribute price_by_night
         """
-        formato = "%Y-%m-%dT%H:%M:%S.%f"
         place = Place()
-        diccionario = place.to_dict()
-        self.assertEqual(diccionario["__class__"], "Place")
-        self.assertEqual(type(diccionario["created_at"]), str)
-        self.assertEqual(type(diccionario["updated_at"]), str)
-        self.assertEqual(
-            diccionario["created_at"],
-            place.created_at.strftime(formato)
-        )
-        self.assertEqual(
-            diccionario["updated_at"],
-            place.updated_at.strftime(formato))
-
+        self.assertTrue(hasattr(place, "price_by_night"))
+        self.assertEqual(place.price_by_night, 0)
+        
     def test_latitude(self):
         """
-            Atributo de clase
+            test class attribute latitude
         """
         place = Place()
         self.assertTrue(hasattr(place, "latitude"))
-        self.assertEqual(type(place.latitude), float)
         self.assertEqual(place.latitude, 0.0)
-
-    def test_to_dict_Place(self):
+        
+    def test_longitude(self):
         """
-            to_dict con Place y el tipo y contenido
+            test class attribute longitude
         """
         place = Place()
-        diccionario = place.to_dict()
-        self.assertEqual(type(diccionario), dict)
-        for Atributo in place.__dict__:
-            self.assertTrue(Atributo in diccionario)
-            self.assertTrue("__class__" in diccionario)
-
-    def test_instancia(self):
-        """Prueba la instanciación de la clase Place"""
-
+        self.assertTrue(hasattr(place, "longitude"))
+        self.assertEqual(place.longitude, 0.0)
+        
+    def test_amenity_ids(self):
+        """
+            test class attribute amenity_ids
+        """
         place = Place()
-        self.assertEqual(str(type(place)), "<class 'models.place.Place'>")
-        self.assertIsInstance(place, Place)
-        self.assertTrue(issubclass(type(place), BaseModel))
+        self.assertTrue(hasattr(place, "amenity_ids"))
+        self.assertEqual(place.amenity_ids, [])
+        
 
-    def test_str(self):
-        """prueba que el método str tiene la salida correcta"""
+    def test_to_dictPlace(self):
+        """
+            test to dict method with place and the type
+            and content
+        """
         place = Place()
-        string = "[Place] ({}) {}".format(place.id, place.__dict__)
-        self.assertEqual(string, str(place))
+        dict_cont = place.to_dict()
+        self.assertEqual(type(dict_cont), dict)
+        for attr in place.__dict__:
+            self.assertTrue(attr in dict_cont)
+            self.assertTrue("__class__" in dict_cont)
+
+    def test_dict_value(self):
+        """
+            test the returned dictionar values
+        """
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
+        place = Place()
+        dict_con = place.to_dict()
+        self.assertEqual(dict_con["__class__"], "Place")
+        self.assertEqual(type(dict_con["created_at"]), str)
+        self.assertEqual(type(dict_con["updated_at"]), str)
+        self.assertEqual(
+            dict_con["created_at"],
+            place.created_at.strftime(time_format)
+        )
+        self.assertEqual(
+            dict_con["updated_at"],
+            place.updated_at.strftime(time_format))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
