@@ -1,55 +1,66 @@
 #!/usr/bin/python3
-"""Unit test for the module Amenity"""
+"""
+Test cases for the Amenity class
+"""
 
-import unittest
+from models.base_model import BaseModel
 from models.amenity import Amenity
-from models import storage
+import unittest
 
 
-class Test_Amenity(unittest.TestCase):
-    """Test for the class Amenity"""
-    instancia = Amenity()
-    instancia.name = 'pepe2'
+class TestAmenity(unittest.TestCase):
+    """
+        unitesst for amenity class
+    """
 
-    data_base = storage.all()
-    instancia_nombre = 'Amenity.' + instancia.id
+    def issub_class(self):
+        """
+            test if amenity class is sub class of base model
+        """
+        amenity = Amenity()
+        self.assertIsInstance(amenity, BaseModel)
+        self.assertTrue(hasattr(amenity, "id"))
+        self.assertTrue(hasattr(amenity, "created_at"))
+        self.assertTrue(hasattr(amenity, "update_at"))
 
-    def test_amenityinit(self):
-        """Test for the method __init__"""
-        features = self.data_base.get(self.instancia_nombre).to_dict()
-        clase_a = "<class 'models.amenity.Amenity'>"
-        tiempo = "<class 'datetime.datetime'>"
+    def test_name(self):
+        """
+            test class attribute email
+        """
+        amenity = Amenity()
+        self.assertTrue(hasattr(amenity, "name"))
+        self.assertEqual(amenity.name, "")
 
-        # Data types
-        self.assertEqual(str(type(self.instancia)), clase_a)
-        self.assertEqual(str(type(self.instancia.id)), "<class 'str'>")
-        self.assertEqual(str(type(self.instancia.created_at)), tiempo)
-        self.assertEqual(str(type(self.instancia.updated_at)), tiempo)
+    def test_to_dictAmenity(self):
+        """
+            test to dict method with amenity and the type
+            and content
+        """
+        amenity = Amenity()
+        dict_cont = amenity.to_dict()
+        self.assertEqual(type(dict_cont), dict)
+        for attr in amenity.__dict__:
+            self.assertTrue(attr in dict_cont)
+            self.assertTrue("__class__" in dict_cont)
 
-        # Basic features storage
-        self.assertIn(self.instancia_nombre, self.data_base.keys())
-        self.assertIn('created_at', features.keys())
-        self.assertIn('updated_at', features.keys())
-        self.assertIn('id', features.keys())
-        self.assertIn('name', features.keys())
-
-        test_dict = {"id": "a693d0ab-14d0-496b-b5db-02e4a7516d4e",
-                     "created_at": "2022-03-04T15:08:52.299424",
-                     "updated_at": "2022-03-04T15:08:52.300076",
-                     "__class__": "Amenity",
-                     "name": "pepe"}
-        instance2 = Amenity(**test_dict)
-        self.assertIsInstance(instance2, Amenity)
-        self.assertEqual(instance2.id, "a693d0ab-14d0-496b-b5db-02e4a7516d4e")
-        self.assertEqual(instance2.name, "pepe")
-
-    def test_amenitysave(self):
-        """Test for the method save"""
-        dato_update = self.instancia.updated_at
-        self.instancia.save()
-        new_date = self.instancia.updated_at
-        self.assertNotEqual(dato_update, new_date)
+    def test_dict_value(self):
+        """
+            test the returned dictionar values
+        """
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
+        amenity = Amenity()
+        dict_con = amenity.to_dict()
+        self.assertEqual(dict_con["__class__"], "Amenity")
+        self.assertEqual(type(dict_con["created_at"]), str)
+        self.assertEqual(type(dict_con["updated_at"]), str)
+        self.assertEqual(
+            dict_con["created_at"],
+            amenity.created_at.strftime(time_format)
+        )
+        self.assertEqual(
+            dict_con["updated_at"],
+            amenity.updated_at.strftime(time_format))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
