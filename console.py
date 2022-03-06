@@ -45,6 +45,18 @@ class HBNBCommand(cmd.Cmd):
             new_show = new_arg[1].split("\"")
             send_line = arg[0] + " " + new_show[1]
             self.do_destroy(send_line)
+        elif new_arg[0] == 'update':
+            delete = ",)\""
+            for x in range(len(delete)):
+                new_arg[1] = new_arg[1].replace(delete[x], "")
+            new_update = new_arg[1].split(" ")
+            try:
+                int(new_update[2])
+            except Exception:
+                new_update[2] = '"' + new_update[2] + '"'
+            send_line = arg[0] + " " + new_update[0] + \
+                " " + new_update[1] + " " + new_update[2]
+            self.do_update(send_line)
         else:
             pass
 
