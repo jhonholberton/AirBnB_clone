@@ -146,6 +146,13 @@ class TestBaseModel(unittest.TestCase):
         self.b.reload()
         file_dict = self.b.all()
         self.assertTrue(key_to_search in file_dict.keys())
+        
+    def test_path_method(self):
+        """Check path method"""
+        self.assertIn('path', dir(self.instance1))
+        self.assertIsInstance(self.instance1, FileStorage)
+        cad = storage.path()
+        self.assertEqual(type(cad), str)
 
 if __name__ == '__main__':
     unittest.main()
