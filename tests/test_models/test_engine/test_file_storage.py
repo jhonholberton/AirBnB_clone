@@ -21,6 +21,10 @@ class TestBaseModel(unittest.TestCase):
         self.file = storage._FileStorage__file_path
         self.b.save()
         self.storage = FileStorage()
+    
+    def test_new(self):
+        """Test for the method new()"""
+        self.assertIn('new', dir(self.b))
 
     def test_all(self):
         """Test for the method all()"""
