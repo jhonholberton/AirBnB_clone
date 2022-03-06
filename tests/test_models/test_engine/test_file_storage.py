@@ -73,6 +73,9 @@ class TestFileStorage_methods(unittest.TestCase):
         self.assertEqual(str, type(models.storage.path()))
 
     def test_all(self):
+        ob = FileStorage()
+        my_dict = ob.all()
+        self.assertEqual(dict, type(my_dict))
         self.assertEqual(dict, type(models.storage.all()))
 
     def test_all_with_arg(self):
