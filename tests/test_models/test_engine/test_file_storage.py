@@ -146,3 +146,6 @@ class TestBaseModel(unittest.TestCase):
         self.b.reload()
         file_dict = self.b.all()
         self.assertTrue(key_to_search in file_dict.keys())
+
+if __name__ == '__main__':
+    unittest.main()
