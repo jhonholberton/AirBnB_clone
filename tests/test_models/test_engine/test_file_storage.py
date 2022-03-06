@@ -90,31 +90,29 @@ class TestFileStorage_methods(unittest.TestCase):
             models.storage.new(None)
 
     def test_save(self):
-        bm = BaseModel()
-        us = User()
-        pl = Place()
-        st = State()
-        ct = City()
-        am = Amenity()
-        rv = Review()
-        models.storage.new(bm)
-        models.storage.new(us)
-        models.storage.new(pl)
-        models.storage.new(st)
-        models.storage.new(ct)
-        models.storage.new(am)
-        models.storage.new(rv)
+        """Check save method."""
+        try:
+            os.remove("file.json")
+        except FileNotFoundError:
+            pass
+        c_date = '2017-09-28T21:05:54.119427'
+        u_date = '2017-09-28T21:05:54.119572'
+        id_val = "b_save"
+
+        b = BaseModel(id=id_val, created_at=c_date, updated_at=u_date,)
+        models.storage.new(b)
         models.storage.save()
-        save_text = ""
-        with open("file.json", "r") as f:
-            save_text = f.read()
-            self.assertIn("BaseModel." + bm.id, save_text)
-            self.assertIn("User." + us.id, save_text)
-            self.assertIn("Place." + pl.id, save_text)
-            self.assertIn("State." + st.id, save_text)
-            self.assertIn("City." + ct.id, save_text)
-            self.assertIn("Amenity." + am.id, save_text)
-            self.assertIn("Review." + rv.id, save_text)
+
+        objects_dict = models.storage.all()
+        keys = objects_dict.keys()
+        b_key = "BaseModel." + b.id
+        b_dict = b.to_dict()
+
+        with open("file.json", "r") as file:
+            json_text = file.read()
+        json_dict = eval(json_text)
+        self.assertTrue(b_key in json_dict.keys())
+        self.assertEqual(json_dict[b_key], b_dict)
 
     def test_save_with_arg(self):
         with self.assertRaises(TypeError):
