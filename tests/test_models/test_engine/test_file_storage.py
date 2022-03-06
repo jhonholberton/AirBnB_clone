@@ -38,12 +38,16 @@ class TestBaseModel(unittest.TestCase):
         """Test for the method new()"""
         self.assertIn('new', dir(self.instance1))
 
-    def test_save(self):
-        """Test for the method save()"""
-        self.assertIn('save', dir(self.instance1))
-        self.storage.save()
+    def test_save_method(self):
+        """ Check the save() method.
+            """
+        b1 = BaseModel()
+        self.b.new(b1)
+        self.b.save()
+        self.assertIn('save', dir(self.b))
+        self.b.save()
         self.assertTrue(os.path.isfile(self.file))
-
+        
     def test_save2(self):
         '''Test saving a instances of each type'''
         base = BaseModel()
@@ -111,16 +115,6 @@ class TestBaseModel(unittest.TestCase):
         """ Create some basic FileStorage instances.
             """
         self.assertIsInstance(self.b, FileStorage)
-
-    def test_save_method(self):
-        """ Check the save() method.
-            """
-        b1 = BaseModel()
-        self.b.new(b1)
-        self.b.save()
-        self.assertIn('save', dir(self.b))
-        self.b.save()
-        self.assertTrue(os.path.isfile(self.file))
         
     def test_path_method(self):
         """Check path method"""
