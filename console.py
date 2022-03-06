@@ -29,6 +29,15 @@ class HBNBCommand(cmd.Cmd):
         """method to keep line empty"""
         pass
 
+    def default(self, arg):
+        """control default line comand"""
+        arg = arg.split(".")
+        new_arg = arg[1].split("(")
+        if new_arg[0] == 'all':
+            self.do_all(arg[0])
+        else:
+            pass
+
     def do_create(self, arg):
         """"Creates a new instance of BaseModel"""
         if arg == '':
