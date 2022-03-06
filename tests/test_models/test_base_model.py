@@ -1,128 +1,85 @@
 #!/usr/bin/python3
-""" Module with Unittest for the FileStorage class.
+""" Module with Unittest for the BaseModel class.
     """
 import inspect
-import unittest
+import json
 import os
+import unittest
+import uuid
 
-from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
-from models import storage
 
 
 class TestBaseModel(unittest.TestCase):
-    """ Testing the FileStorage class of the program.
+    """ Testing the BaseModel class of the program.
         """
 
-    instance1 = FileStorage()
-    file = storage._FileStorage__file_path
-    storage = FileStorage()
-    b = FileStorage()
-    b.save()
-    
-    def test_all(self):
-        """Test for the method all()"""
-        self.assertIn('all', dir(self.instance1))
-        self.assertIsInstance(self.instance1, FileStorage)
-        dictt = storage.all()
-        self.assertEqual(type(dictt), dict)
-
-    def test_new(self):
-        """Test for the method new()"""
-        self.assertIn('new', dir(self.instance1))
-
-    def test_save_method(self):
-        """ Check the save() method.
+    def setUp(self):
+        """ Method to prepare each single test.
             """
-        b1 = BaseModel()
-        self.b.new(b1)
+        self.b = BaseModel()
         self.b.save()
-        self.assertIn('save', dir(self.b))
-        self.b.save()
-        self.assertTrue(os.path.isfile(self.file))
-        
-    def test_save2(self):
-        '''Test saving a instances of each type'''
-        base = BaseModel()
-        storage.new(base)
-
-        user = User()
-        storage.new(user)
-
-        state = State()
-        storage.new(state)
-
-        place = Place()
-        storage.new(place)
-
-        city = City()
-        storage.new(city)
-
-        amenity = Amenity()
-        storage.new(amenity)
-
-        review = Review()
-        storage.new(review)
-
-        storage.save()
-
-        with open(self.file) as f:
-            string = f.read()
-            self.assertIn("BaseModel." + base.id, string)
-            self.assertIn("User." + user.id, string)
-            self.assertIn("State." + state.id, string)
-            self.assertIn("Place." + place.id, string)
-            self.assertIn("City." + city.id, string)
-            self.assertIn("Amenity." + amenity.id, string)
-            self.assertIn("Review." + review.id, string)
-
-    def test_reload(self):
-        """Test for the method reload()"""
-        self.assertIn('reload', dir(self.instance1))
-        objects = storage.all()
-        base = BaseModel()
-        storage.save()
-        storage.reload()
-        key_to_search = "BaseModel.{}".format(base.id)
-        self.assertIn("BaseModel." + base.id, objects.keys())
-        self.assertTrue(key_to_search in objects.keys())
 
     def test_module_documentation(self):
-        """ Test if FileStorage module is documented.
+        """ Test if BaseModel module is documented.
             """
-        self.assertTrue(FileStorage.__doc__)
+        self.assertTrue(BaseModel.__doc__)
 
     def test_class_documentation(self):
-        """ Test if FileStorage class is documented.
+        """ Test if BaseModel class is documented.
             """
-        self.assertTrue(FileStorage.__doc__)
+        self.assertTrue(BaseModel.__doc__)
 
     def test_methods_documentation(self):
-        """ Test if all FileStorage methods are documented.
+        """ Test if all BaseModel methods are documented.
             """
-        methods = inspect.getmembers(FileStorage)
+        methods = inspect.getmembers(BaseModel)
         for method in methods:
             self.assertTrue(inspect.getdoc(method))
 
     def test_basic_base_assigment(self):
-        """ Create some basic FileStorage instances.
+        """ Create some basic BaseModel instances.
             """
-        self.assertIsInstance(self.b, FileStorage)
-        
-    def test_path_method(self):
-        """Check path method"""
-        self.assertIn('path', dir(self.instance1))
-        self.assertIsInstance(self.instance1, FileStorage)
-        cad = storage.path()
-        self.assertEqual(type(cad), str)
+        self.assertIsInstance(self.b, BaseModel)
+        self.assertTrue(hasattr(self.b, "id"))
+        self.assertTrue(hasattr(self.b, "created_at"))
+        self.assertTrue(hasattr(self.b, "updated_at"))
 
+    def test_base_id_assigment(self):
+        """ Test if the id of the instance is UUID v4.
+            """
+        uuid_v4 = uuid.UUID(self.b.id, version=4)
+        self.assertEqual(str(uuid_v4), self.b.id)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_base_assigment_arguments(self):
+        """ Test BaseModel instance assigment with arguments.
+            """
+        b = BaseModel(15)
+        b.name = "I'm a BaseModel"
+        self.assertTrue(hasattr(b, "name"))
+        self.assertEqual(b.to_dict()["name"], "I'm a BaseModel")
+        self.assertFalse(hasattr(b, "15"))
+
+    def test_save_method(self):
+        """ Check the save() method.
+            """
+        b_save = BaseModel()
+        b_save.save()
+        self.assertTrue(os.path.exists("file.json"))
+        with open("file.json") as file_opened:
+            file_dict = json.load(file_opened)
+        self.assertTrue(b_save.to_dict() in file_dict.values())
+
+    def test_to_dict_method(self):
+        """ Check the to_dict() method.
+            """
+        obj_as_dict = self.b.to_dict()
+        self.assertEqual(self.b.id, obj_as_dict["id"])
+
+    def test_str_method(self):
+        """ Check the __str__() method.
+            """
+        b_srt_string = "[{}] ({}) {}".format(self.b.__class__.__name__,
+                                             self.b.id, self.b.__dict__)
+        b_srt = self.b.__str__()
+        self.assertEqual(b_srt_string, b_srt)
