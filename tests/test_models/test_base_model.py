@@ -1,181 +1,127 @@
 #!/usr/bin/python3
-"""Modulo de pruebas para la clase BaseModel"""
-
-from models import storage
-from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
-from datetime import datetime
-import json
-import os
+""" Module with Unittest for the FileStorage class.
+    """
 import inspect
-import re
-import time
 import unittest
-import uuid
+import os
+
+from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from models import storage
 
 
 class TestBaseModel(unittest.TestCase):
-    """
-    """
-    @classmethod
-    def test_setUp(self):
-        """Configurar para pruebas de cadenas de documentos"""
-        self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
+    """ Testing the FileStorage class of the program.
+        """
 
-    def test_instancia(self):
-        """Prueba la instanciación de la clase BaseModel"""
-        b = BaseModel()
-        self.assertEqual(str(type(b)), "<class 'models.base_model.BaseModel'>")
-        self.assertIsInstance(b, BaseModel)
-        self.assertTrue(issubclass(type(b), BaseModel))
+    instance1 = FileStorage()
+    file = storage._FileStorage__file_path
+    storage = FileStorage()
+    b = FileStorage()
+    b.save()
+    
+    def test_all(self):
+        """Test for the method all()"""
+        self.assertIn('all', dir(self.instance1))
+        self.assertIsInstance(self.instance1, FileStorage)
+        dictt = storage.all()
+        self.assertEqual(type(dictt), dict)
 
-    def test_restablece(self):
-        """Restablece los datos de FileStorage."""
-        FileStorage._FileStorage__objects = {}
-        if os.path.isfile(FileStorage._FileStorage__file_path):
-            os.remove(FileStorage._FileStorage__file_path)
+    def test_new(self):
+        """Test for the method new()"""
+        self.assertIn('new', dir(self.instance1))
 
-    def test_init_sin_argumentos(self):
-        """Prueba __init__ sin argumentos."""
-        self.test_restablece()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.__init__()
-        mensaje = "__init__() missing 1 required positional argument: 'self'"
-        self.assertEqual(str(e.exception), mensaje)
-
-    def test_init_varios_argumentos(self):
-        """Tests __init__ con varios argumentos."""
-        self.test_restablece()
-        b = BaseModel(15)
-        b.name = "I'm a BaseModel"
-        self.assertTrue(hasattr(b, "name"))
-        self.assertEqual(b.to_dict()["name"], "I'm a BaseModel")
-        self.assertFalse(hasattr(b, "15"))
-
-    def test_momento_creacion(self):
-        """Prueba si updated_at y created_at están
-        actualizados en el momento de la creación."""
-        dato = datetime.now()
+    def test_save_method(self):
+        """ Check the save() method.
+            """
+        b1 = BaseModel()
+        self.b.new(b1)
+        self.b.save()
+        self.assertIn('save', dir(self.b))
+        self.b.save()
+        self.assertTrue(os.path.isfile(self.file))
+        
+    def test_save2(self):
+        '''Test saving a instances of each type'''
         base = BaseModel()
-        diff = base.updated_at - base.created_at
-        self.assertTrue(abs(diff.total_seconds()) < 0.01)
-        diff = base.created_at - dato
-        self.assertTrue(abs(diff.total_seconds()) < 0.1)
+        storage.new(base)
 
-    def test_id(self):
-        """Pruebas para identificaciones de usuario únicas."""
+        user = User()
+        storage.new(user)
 
-        ld = [BaseModel().id for iterador in range(1000)]
-        self.assertEqual(len(set(ld)), len(ld))
+        state = State()
+        storage.new(state)
 
-    def test_save(self):
-        """Prueba el método de instancia pública save()."""
+        place = Place()
+        storage.new(place)
 
+        city = City()
+        storage.new(city)
+
+        amenity = Amenity()
+        storage.new(amenity)
+
+        review = Review()
+        storage.new(review)
+
+        storage.save()
+
+        with open(self.file) as f:
+            string = f.read()
+            self.assertIn("BaseModel." + base.id, string)
+            self.assertIn("User." + user.id, string)
+            self.assertIn("State." + state.id, string)
+            self.assertIn("Place." + place.id, string)
+            self.assertIn("City." + city.id, string)
+            self.assertIn("Amenity." + amenity.id, string)
+            self.assertIn("Review." + review.id, string)
+
+    def test_reload(self):
+        """Test for the method reload()"""
+        self.assertIn('reload', dir(self.instance1))
+        objects = storage.all()
         base = BaseModel()
-        time.sleep(0.5)
-        tiempo = datetime.now()
-        base.save()
-        diff = base.updated_at - tiempo
-        self.assertTrue(abs(diff.total_seconds()) < 0.01)
+        storage.save()
+        storage.reload()
+        key_to_search = "BaseModel.{}".format(base.id)
+        self.assertIn("BaseModel." + base.id, objects.keys())
+        self.assertTrue(key_to_search in objects.keys())
 
-    def test_str(self):
-        """Pruebas para el método __str__."""
-        base = BaseModel()
-        signos = re.compile(r"^\[(.*)\] \((.*)\) (.*)$")
-        aparacion = signos.match(str(base))
-        self.assertIsNotNone(aparacion)
-        self.assertEqual(aparacion.group(1), "BaseModel")
-        self.assertEqual(aparacion.group(2), base.id)
-        subgru = aparacion.group(3)
-        subgru = re.sub(r"(datetime\.datetime\([^)]*\))", "'\\1'", subgru)
-        jso = json.loads(subgru.replace("'", '"'))
-        copia = base.__dict__.copy()
-        copia["created_at"] = repr(copia["created_at"])
-        copia["updated_at"] = repr(copia["updated_at"])
-        self.assertEqual(jso, copia)
+    def test_module_documentation(self):
+        """ Test if FileStorage module is documented.
+            """
+        self.assertTrue(FileStorage.__doc__)
 
-    def test_to_dict(self):
-        """Prueba el método de instancia pública to_dict()."""
+    def test_class_documentation(self):
+        """ Test if FileStorage class is documented.
+            """
+        self.assertTrue(FileStorage.__doc__)
 
-        base = BaseModel()
-        base.name = "Sebastian"
-        base.age = 35
-        diccio = base.to_dict()
-        self.assertEqual(diccio["id"], base.id)
-        self.assertEqual(diccio["__class__"], type(base).__name__)
-        self.assertEqual(diccio["created_at"], base.created_at.isoformat())
-        self.assertEqual(diccio["updated_at"], base.updated_at.isoformat())
-        self.assertEqual(diccio["name"], base.name)
-        self.assertEqual(diccio["age"], base.age)
+    def test_methods_documentation(self):
+        """ Test if all FileStorage methods are documented.
+            """
+        methods = inspect.getmembers(FileStorage)
+        for method in methods:
+            self.assertTrue(inspect.getdoc(method))
 
-    def test_to_dict_sin_argumentos(self):
-        """Prueba to_dict() sin argumentos."""
-        self.test_restablece()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.to_dict()
-        mensaje = "to_dict() missing 1 required positional argument: 'self'"
-        self.assertEqual(str(e.exception), mensaje)
-
-    def test_to_dict_varios_argumentos(self):
-        """Prueba to_dict() con varios argumentos."""
-        self.test_restablece()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.to_dict(self, 98)
-        msg = "to_dict() takes 1 positional argument but 2 were given"
-        self.assertEqual(str(e.exception), msg)
-
-    def test_instanciacion(self):
-        """Prueba la creación de instancias con **kwargs"""
-
-        base = BaseModel()
-        base.name = "Sebastian"
-        base.my_number = 21
-        base_json = base.to_dict()
-        model = BaseModel(**base_json)
-        self.assertEqual(model.to_dict(), base.to_dict())
-
-    def test_instantiation_dict(self):
-        """Prueba la creación de instancias con **kwargs del dictado
-        personalizado."""
-        diccionario = {"__class__": "BaseModel",
-                       "updated_at":
-                       datetime(2050, 12, 30, 23, 59, 59, 123456).isoformat(),
-                       "created_at": datetime.now().isoformat(),
-                       "id": uuid.uuid4(),
-                       "my_first_name": "Sebastian",
-                       "my_number": 21}
-        obj = BaseModel(**diccionario)
-        self.assertEqual(obj.to_dict(), diccionario)
-
-    def test_save_desde_save(self):
-        """Prueba que llama a storage.save() desde save()."""
-        self.test_restablece()
-        base = BaseModel()
-        base.save()
-        key = "{}.{}".format(type(base).__name__, base.id)
-        llave = {key: base.to_dict()}
-        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
-        with open(FileStorage._FileStorage__file_path,
-                  "r", encoding="utf-8") as f:
-            self.assertEqual(len(f.read()), len(json.dumps(llave)))
-            f.seek(0)
-            self.assertEqual(json.load(f), llave)
-
-    def test_save_sin_argumentos(self):
-        """Prueba save() sin argumentos"""
-        self.test_restablece()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.save()
-        mensaje = "save() missing 1 required positional argument: 'self'"
-        self.assertEqual(str(e.exception), mensaje)
-
-    def test_save_varios_argumentos(self):
-        """Prueba save() con demasiados argumentos."""
-        self.test_restablece()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.save(self, 98)
-        mensaje = "save() takes 1 positional argument but 2 were given"
-        self.assertEqual(str(e.exception), mensaje)
+    def test_basic_base_assigment(self):
+        """ Create some basic FileStorage instances.
+            """
+        self.assertIsInstance(self.b, FileStorage)
+        
+    def test_path_method(self):
+        """Check path method"""
+        self.assertIn('path', dir(self.instance1))
+        self.assertIsInstance(self.instance1, FileStorage)
+        cad = storage.path()
+        self.assertEqual(type(cad), str)
 
 
 if __name__ == '__main__':
