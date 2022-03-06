@@ -20,6 +20,14 @@ class TestBaseModel(unittest.TestCase):
         self.b = FileStorage()
         self.file = storage._FileStorage__file_path
         self.b.save()
+        self.storage = FileStorage()
+
+    def test_all(self):
+        """Test for the method all()"""
+        self.assertIn('all', dir(self.b))
+        self.assertIsInstance(self.b, FileStorage)
+        dictt = self.storage.all()
+        self.assertEqual(type(dictt), dict)
 
     def test_module_documentation(self):
         """ Test if FileStorage module is documented.
