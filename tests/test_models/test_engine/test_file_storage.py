@@ -62,7 +62,7 @@ class TestFileStorage_methods(unittest.TestCase):
         except IOError:
             pass
         FileStorage._FileStorage__objects = {}
-        
+
     def test_path(self):
         self.assertEqual(str, type(models.storage.path()))
 

@@ -30,7 +30,6 @@ class Teststate(unittest.TestCase):
         state = State()
         self.assertTrue(hasattr(state, "name"))
         self.assertEqual(state.name, "")
-        
 
     def test_to_dictstate(self):
         """

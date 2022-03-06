@@ -30,7 +30,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "name"))
         self.assertEqual(place.name, "")
-    
+
     def test_city_id(self):
         """
             test class attribute city_id
@@ -38,7 +38,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "city_id"))
         self.assertEqual(place.city_id, "")
-    
+
     def test_user_id(self):
         """
             test class attribute user_id
@@ -46,7 +46,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "user_id"))
         self.assertEqual(place.user_id, "")
-        
+
     def test_description(self):
         """
             test class attribute description
@@ -54,7 +54,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "description"))
         self.assertEqual(place.description, "")
-        
+
     def test_number_rooms(self):
         """
             test class attribute number_rooms
@@ -62,7 +62,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "number_rooms"))
         self.assertEqual(place.number_rooms, 0)
-        
+
     def test_number_bathrooms(self):
         """
             test class attribute number_bathrooms
@@ -70,7 +70,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "number_bathrooms"))
         self.assertEqual(place.number_bathrooms, 0)
-        
+
     def test_max_guest(self):
         """
             test class attribute max_guest
@@ -78,7 +78,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "max_guest"))
         self.assertEqual(place.max_guest, 0)
-        
+
     def test_price_by_night(self):
         """
             test class attribute price_by_night
@@ -86,7 +86,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "price_by_night"))
         self.assertEqual(place.price_by_night, 0)
-        
+
     def test_latitude(self):
         """
             test class attribute latitude
@@ -94,7 +94,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "latitude"))
         self.assertEqual(place.latitude, 0.0)
-        
+
     def test_longitude(self):
         """
             test class attribute longitude
@@ -102,7 +102,7 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "longitude"))
         self.assertEqual(place.longitude, 0.0)
-        
+
     def test_amenity_ids(self):
         """
             test class attribute amenity_ids
@@ -110,7 +110,6 @@ class Testplace(unittest.TestCase):
         place = Place()
         self.assertTrue(hasattr(place, "amenity_ids"))
         self.assertEqual(place.amenity_ids, [])
-        
 
     def test_to_dictPlace(self):
         """

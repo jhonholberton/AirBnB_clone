@@ -30,7 +30,7 @@ class TestCity(unittest.TestCase):
         city = City()
         self.assertTrue(hasattr(city, "name"))
         self.assertEqual(city.name, "")
-    
+
     def test_state_id(self):
         """
             test class attribute state_id
@@ -38,7 +38,6 @@ class TestCity(unittest.TestCase):
         city = City()
         self.assertTrue(hasattr(city, "state_id"))
         self.assertEqual(city.state_id, "")
-        
 
     def test_to_dictcity(self):
         """
