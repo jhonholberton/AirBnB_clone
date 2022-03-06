@@ -46,9 +46,11 @@ class TestBaseModel(unittest.TestCase):
     def test_init_varios_argumentos(self):
         """Tests __init__ con varios argumentos."""
         self.test_restablece()
-        args = [iterador for iterador in range(1000)]
-        base = BaseModel(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-        base = BaseModel(*args)
+        b = BaseModel(15)
+        b.name = "I'm a BaseModel"
+        self.assertTrue(hasattr(b, "name"))
+        self.assertEqual(b.to_dict()["name"], "I'm a BaseModel")
+        self.assertFalse(hasattr(b, "15"))
 
     def test_momento_creacion(self):
         """Prueba si updated_at y created_at están
