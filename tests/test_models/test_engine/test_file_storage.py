@@ -82,27 +82,13 @@ class TestBaseModel(unittest.TestCase):
     def test_reload(self):
         """Test for the method reload()"""
         self.assertIn('reload', dir(self.instance1))
-
         objects = storage.all()
-
         base = BaseModel()
-        user = User()
-        state = State()
-        place = Place()
-        city = City()
-        amenity = Amenity()
-        review = Review()
-
         storage.save()
         storage.reload()
-
+        key_to_search = "BaseModel.{}".format(base.id)
         self.assertIn("BaseModel." + base.id, objects.keys())
-        self.assertIn("User." + user.id, objects.keys())
-        self.assertIn("State." + state.id, objects.keys())
-        self.assertIn("Place." + place.id, objects.keys())
-        self.assertIn("City." + city.id, objects.keys())
-        self.assertIn("Amenity." + amenity.id, objects.keys())
-        self.assertIn("Review." + review.id, objects.keys())
+        self.assertTrue(key_to_search in objects.keys())
 
     def test_module_documentation(self):
         """ Test if FileStorage module is documented.
@@ -135,17 +121,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn('save', dir(self.b))
         self.b.save()
         self.assertTrue(os.path.isfile(self.file))
-
-    def test_reload_method(self):
-        """ Check the reload() method.
-            """
-        b1 = BaseModel()
-        self.b.new(b1)
-        self.b.save()
-        key_to_search = "BaseModel.{}".format(b1.id)
-        self.b.reload()
-        file_dict = self.b.all()
-        self.assertTrue(key_to_search in file_dict.keys())
         
     def test_path_method(self):
         """Check path method"""
