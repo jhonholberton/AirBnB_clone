@@ -46,19 +46,22 @@ class HBNBCommand(cmd.Cmd):
             send_line = arg[0] + " " + new_show[1]
             self.do_destroy(send_line)
         elif new_arg[0] == 'update':
-            delete = ",)\""
-            for x in range(len(delete)):
-                new_arg[1] = new_arg[1].replace(delete[x], "")
-            new_update = new_arg[1].split(" ")
-            try:
-                int(new_update[2])
-            except Exception:
-                new_update[2] = '"' + new_update[2] + '"'
-            send_line = arg[0] + " " + new_update[0] + \
-                " " + new_update[1] + " " + new_update[2]
-            self.do_update(send_line)
+            self.do_newstring(new_arg[1], arg[0])
         else:
             pass
+
+    def do_newstring(self, arg, my_class):
+        delete = ",)\""
+        for x in range(len(delete)):
+            arg = arg.replace(delete[x], "")
+        new_update = arg.split(" ")
+        try:
+            int(new_update[2])
+        except Exception:
+            new_update[2] = '"' + new_update[2] + '"'
+        send_line = my_class + " " + new_update[0] + \
+            " " + new_update[1] + " " + new_update[2]
+        self.do_update(send_line)
 
     def do_create(self, arg):
         """"Creates a new instance of BaseModel"""
