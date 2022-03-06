@@ -41,6 +41,10 @@ class HBNBCommand(cmd.Cmd):
             new_show = new_arg[1].split("\"")
             send_line = arg[0] + " " + new_show[1]
             self.do_show(send_line)
+        elif new_arg[0] == 'destroy':
+            new_show = new_arg[1].split("\"")
+            send_line = arg[0] + " " + new_show[1]
+            self.do_destroy(send_line)
         else:
             pass
 
