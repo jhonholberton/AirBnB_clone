@@ -118,31 +118,17 @@ class TestFileStorage_methods(unittest.TestCase):
         with self.assertRaises(TypeError):
             models.storage.save(None)
 
-    def test_reload(self):
-        bm = BaseModel()
-        us = User()
-        pl = Place()
-        st = State()
-        ct = City()
-        am = Amenity()
-        rv = Review()
-        models.storage.new(bm)
-        models.storage.new(us)
-        models.storage.new(pl)
-        models.storage.new(st)
-        models.storage.new(ct)
-        models.storage.new(am)
-        models.storage.new(rv)
-        models.storage.save()
-        models.storage.reload()
-        obj = models.storage.all()
-        self.assertIn("BaseModel." + bm.id, obj)
-        self.assertIn("User." + us.id, obj)
-        self.assertIn("Place." + pl.id, obj)
-        self.assertIn("State." + st.id, obj)
-        self.assertIn("City." + ct.id, obj)
-        self.assertIn("Amenity." + am.id, obj)
-        self.assertIn("Review." + rv.id, obj)
+    def test_reload_method(self):
+        """ Check the reload() method.
+            """
+        self.storage_test = FileStorage()
+        base_model_test = BaseModel()
+        self.storage_test.new(base_model_test)
+        self.storage_test.save()
+        key_to_search = "BaseModel.{}".format(base_model_test.id)
+        self.storage_test.reload()
+        file_dict = self.storage_test.all()
+        self.assertTrue(key_to_search in file_dict.keys())
 
     def test_reload_with_arg(self):
         with self.assertRaises(TypeError):
