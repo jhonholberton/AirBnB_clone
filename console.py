@@ -35,8 +35,12 @@ class HBNBCommand(cmd.Cmd):
         new_arg = arg[1].split("(")
         if new_arg[0] == 'all':
             self.do_all(arg[0])
-        if new_arg[0] == 'count':
+        elif new_arg[0] == 'count':
             self.do_count(arg[0])
+        elif new_arg[0] == 'show':
+            new_show = new_arg[1].split("\"")
+            send_line = arg[0] + " " + new_show[1]
+            self.do_show(send_line)
         else:
             pass
 
