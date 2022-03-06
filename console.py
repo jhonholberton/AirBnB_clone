@@ -35,6 +35,8 @@ class HBNBCommand(cmd.Cmd):
         new_arg = arg[1].split("(")
         if new_arg[0] == 'all':
             self.do_all(arg[0])
+        if new_arg[0] == 'count':
+            self.do_count(arg[0])
         else:
             pass
 
@@ -64,6 +66,15 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all()[k])
             else:
                 print("** no instance found **")
+
+    def do_count(self, arg):
+        """show de object Basemodel for ID"""
+        arg = arg.split()
+        count = 0
+        for v in storage.all().values():
+            if arg[0] == type(v).__name__:
+                count += 1
+        print(count)
 
     def do_destroy(self, arg):
         """this method delete basemodel id complete"""
