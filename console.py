@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """console foy my API"""
 import cmd
+from xxlimited import new
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -46,7 +47,25 @@ class HBNBCommand(cmd.Cmd):
             send_line = arg[0] + " " + new_show[1]
             self.do_destroy(send_line)
         elif new_arg[0] == 'update':
-            self.do_newstring(new_arg[1], arg[0])
+            is_dict = new_arg[1].find("}")
+            if is_dict == -1:
+                self.do_newstring(new_arg[1], arg[0])
+            else:
+                delete = ",)\"'}:"
+                new_list = new_arg[1].split("{")
+                for x in range(len(delete)):
+                    new_list[0] = new_list[0].replace(delete[x], "")
+                for x in range(len(delete)):
+                    new_list[1] = new_list[1].replace(delete[x], "")
+                lis_dict = new_list[1].split(" ")
+                for i in range(0, len(lis_dict), 2):
+                    try:
+                        int(lis_dict[i + 1])
+                    except Exception:
+                        lis_dict[i + 1] = '"' + lis_dict[i + 1] + '"'
+                    send_line = arg[0] + " " + new_list[0] + \
+                        lis_dict[i] + " " + lis_dict[i + 1]
+                    self.do_update(send_line)
         else:
             pass
 
