@@ -66,6 +66,9 @@ class TestBaseModel(unittest.TestCase):
         b_save = BaseModel()
         b_save.save()
         self.assertTrue(os.path.exists("file.json"))
+        with open("file.json") as file_opened:
+            file_dict = json.load(file_opened)
+        self.assertTrue(b_save.to_dict() in file_dict.values())
 
     def test_to_dict_method(self):
         """ Check the to_dict() method.
