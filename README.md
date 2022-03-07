@@ -46,6 +46,8 @@ All tests should also pass in non-interactive mode: $ echo "python3 -m unittest 
 ## Tests
 We've created tests to verify the stability and functionality of the console and classes created. If there is a desire to run said tests, while in the AirBnB directory running the following command will execute the test modules that are in the test/test_models/ directory
 
+**python3 -m unittest discover tests**
+
 ## Author
 
 * **Reinaldo Castro**
