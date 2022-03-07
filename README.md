@@ -67,7 +67,7 @@ We've created tests to verify the stability and functionality of the console and
 
 **python3 -m unittest discover tests**
 
-## Author
+## Authors
 
 * **Reinaldo Castro** <[Rcastro89](https://github.com/Rcastro89)>
 * **Jhon Gonzalez** <[jhonholberton](https://github.com/jhonholberton)>
