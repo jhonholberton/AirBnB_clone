@@ -45,8 +45,6 @@ Commands | Description | Usage
 **all** | Prints the string representation of all instances of a class| **all** or **all** \<class_name class_id\>
 **update** | Adds or modifies attribute(s) of an instance of a class | **update** \<class_name class_id key value\>
 
-All tests should also pass in non-interactive mode: $ echo "python3 -m unittest discover tests" | bash
-
 ## Tests
 We've created tests to verify the stability and functionality of the console and classes created. If there is a desire to run said tests, while in the AirBnB directory running the following command will execute the test modules that are in the test/test_models/ directory
 
