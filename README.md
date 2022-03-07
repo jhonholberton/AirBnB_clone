@@ -36,7 +36,7 @@ If non-interactive mode is desired run:
 #### Commands
 Commands | Description | Usage
 -------- | ----------- |-------- |
-**help** or **?**| Displays the documented commands. | **help**
+**help** | Displays the documented commands. | **help**
 **quit**     | Exits the program. | **quit**
 **EOF**      | Also exits the program. Used when files are passed into the program. | N/A
 **create**  | Creates a new instance of a specified class. In addition, creates a Json file containing object representations while printing the id the object to stdout. | **create** \<class_name\>
