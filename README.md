@@ -3,6 +3,7 @@
 # Overview
 
 The beginning of a multi-part Airbnb clone project which are creates a copy of [Airbnb](https://www.airbnb.com/). We have created a console that allows for the creation and manipulation of objects in a user-friendly interface.
+
 ## Getting Started:
 The first step to running the console requires a cloning of the repository which can be done in the following way:
 `$ git clone https://github.com/pipeleon/AirBnB_clone.git`
