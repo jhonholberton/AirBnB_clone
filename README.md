@@ -13,7 +13,7 @@ To run the console in non-interactive mode, pipe any command(s) into an executio
 of the file `console.py` at the command line.
 
 ## Features
-As stated above, this particular piece of the AirBnB clone is a console, i.e. a command intepreter that allows for the developer to be able to contact and control various objects on a high level. See below for more details.
+As stated above, this particular piece of the AirBnB clone is a console, i.e. a command intepreter that allows for the developer to be able to contact and control various objects on a high level.
 
 ### Command Interpreter
 #### Description
