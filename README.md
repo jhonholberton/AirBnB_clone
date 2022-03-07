@@ -12,19 +12,43 @@ The HolbertonBnB console can be run both interactively and non-interactively.
 To run the console in non-interactive mode, pipe any command(s) into an execution 
 of the file `console.py` at the command line.
 
+## Execution
 
-$echo "help" | ./console.py
-(hbnb) 
-Documented commands (type help <topic>)
+interactive mode:
+
+$ ./console.py
+(hbnb) help
+
+Documented commands (type help <topic>):
 ========================================
-EOF  all  count  create  destroy  help  quit  show  update
+EOF  help  quit
 
 (hbnb) 
+(hbnb) 
+(hbnb) quit
 $
 
-use the HolbertonBnB console in interactive mode, run the file `console.py` by itself:
+non-interactive mode:  
 
-$./console.py
+$ echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+$ cat test_help
+help
+$
+$ cat test_help | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
 
 
 ## Features
