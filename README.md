@@ -1,4 +1,4 @@
-<img src="https://camo.githubusercontent.com/2756611b7152e3a082a906de8e91f9260de0c7054948cda6060f1e35debd233b/68747470733a2f2f692e696d6775722e636f6d2f4e6c38764e32472e6a7067 />
+<img src="https://holbertonintranet.s3.amazonaws.com/uploads/medias/2018/6/65f4a1dd9c51265f49d0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOU5BHMTQX4%2F20220307%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220307T032126Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=2aa4b555c740d7414f8183d2b6b1f9a3f48508ba43c8bb63e49aa6c22a8aabd9/>
 
 # Overview
 
