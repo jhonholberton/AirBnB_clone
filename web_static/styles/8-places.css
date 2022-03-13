@@ -1,0 +1,122 @@
+.container .places h1 {
+    font-size: 30px;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+.container .places article {
+    font-size: 30px;
+    width: 390px;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    position: relative;
+    border: 1px #FF5A5F solid;
+    height: auto;
+}
+
+.container .places .first {
+    width: 100%;
+    position: relative;
+    left: 0;
+    display: flex;
+}
+
+.container .places .second {
+    width: 100%;
+    left: 0;
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+
+.price_by_night {
+    color: #FF5A5F;
+    border: #FF5A5F 4px solid;
+    border-radius: 50%;
+    min-width: 60px;
+    max-width: max-content;
+    padding: 7px;
+    height: 60px;
+    font-size: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    top: -15%;
+    left: 80%;
+}
+
+.information {
+    height: 80px;
+    border-top: #DDDDDD 1px solid;
+    border-bottom: #DDDDDD 1px solid;
+    position: initial;
+    display: flex;
+    justify-content: center;
+}
+
+.max_guest {
+    width: 100px;
+    height: 60px;
+    font-size: 12px;
+    position: relative;
+    left: 0px;
+    top: 10px;
+    background: white;
+    background-image: url("../images/icon_group.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.number_bathrooms {
+    width: 100px;
+    height: 60px;
+    font-size: 12px;
+    position: relative;
+    left: 0px;
+    top: 10px;
+    background: white;
+    background-image: url("../images/icon_bath.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.number_rooms {
+    width: 100px;
+    height: 60px;
+    font-size: 12px;
+    position: relative;
+    left: 0px;
+    top: 10px;
+    background: white;
+    background-image: url("../images/icon_bed.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.information p {
+    position: absolute;
+    width: 100%;
+    bottom: -5px;
+    padding: 0;
+    margin: 0;
+}
+
+.user {
+    font-size: 14px;
+    position: relative;
+    top: 0px;
+    left: -35%;
+}
+
+.description {
+    font-size: 14px;
+    position: relative;
+    top: 0px;
+    left: 1%;
+    text-align: left;
+}

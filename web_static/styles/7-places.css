@@ -1,0 +1,32 @@
+.container .places h1 {
+    font-size: 30px;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+.container .places article {
+    font-size: 30px;
+    width: 390px;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    position: relative;
+    border: 1px #FF5A5F solid;
+}
+
+.container .places .first {
+    width: 100%;
+    position: relative;
+    left: 0;
+    display: flex;
+}
+
+.container .places .second {
+    width: 100%;
+    left: 0;
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
