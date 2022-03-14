@@ -1,32 +1,22 @@
-.container .places h1 {
-    font-size: 30px;
-    padding-top: 20px;
-    padding-bottom: 0px;
-    margin: 0px;
+.places {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
 }
 
-.container .places article {
+.places h1 {
+    height: 30px;
+    width: 100%;
     font-size: 30px;
+    padding-left: 3%;
+}
+
+article {
     width: 390px;
-    border-radius: 4px;
     padding: 20px;
     margin: 20px;
+    border: 1px solid #FF5A5F;
+    border-radius: 4px;
+    font-size: 30px;
     text-align: center;
-    position: relative;
-    border: 1px #FF5A5F solid;
-}
-
-.container .places .first {
-    width: 100%;
-    position: relative;
-    left: 0;
-    display: flex;
-}
-
-.container .places .second {
-    width: 100%;
-    left: 0;
-    display: flex;
-    position: relative;
-    justify-content: center;
 }
